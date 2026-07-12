@@ -110,44 +110,79 @@ internal class Program
         // Uses the built-in Func<Product, T> delegate.
         // Func is used because it transforms a Product into another type
         // and returns the transformed value.
-        static List<T> TransformProducts<T>(List<Product> products, Func<Product, T> transformer)
-    {
-        List<T> result = new List<T>();
+        //static List<T> TransformProducts<T>(List<Product> products, Func<Product, T> transformer)
+        //{
+        //    List<T> result = new List<T>();
 
-        foreach (Product product in products)
+        //    foreach (Product product in products)
+        //    {
+        //        result.Add(transformer(product));
+        //    }
+
+        //    return result;
+        //}
+
+
+        //Console.WriteLine("--- Summary List ---");
+
+        //List<string> summary = TransformProducts(catalog,
+        //    product => $"{product.Name} (${product.Price})");
+
+        //foreach (string item in summary)
+        //{
+        //    Console.WriteLine(item);
+        //}
+
+        //Console.WriteLine();
+
+        //Console.WriteLine("--- Price Labels ---");
+
+        //List<string> labels = TransformProducts(catalog,
+        //    product => product.Price > 100 ? "Expensive!" : "Affordable");
+
+        //for (int i = 0; i < catalog.Count; i++)
+        //{
+        //    Console.WriteLine($"{catalog[i].Name}: {labels[i]}");
+        //}
+
+
+
+
+
+
+        #endregion
+
+
+
+        #region Task 3.3
+
+        // Uses the built-in Predicate<Product> delegate.
+        // Predicate is used because it checks a condition and returns true or false.
+        static List<Product> FilterProducts(List<Product> products, Predicate<Product> condition)
         {
-            result.Add(transformer(product));
+            List<Product> result = new List<Product>();
+
+            foreach (Product product in products)
+            {
+                if (condition(product))
+                {
+                    result.Add(product);
+                }
+            }
+
+            return result;
         }
 
-        return result;
-    }
 
+            Console.WriteLine("--- Low-Stock Alert ---");
 
-        Console.WriteLine("--- Summary List ---");
+            List<Product> lowStockProducts = FilterProducts(catalog,
+                product => product.Stock < 20);
 
-        List<string> summary = TransformProducts(catalog,
-            product => $"{product.Name} (${product.Price})");
-
-        foreach (string item in summary)
-        {
-            Console.WriteLine(item);
-        }
-
-        Console.WriteLine();
-
-        Console.WriteLine("--- Price Labels ---");
-
-        List<string> labels = TransformProducts(catalog,
-            product => product.Price > 100 ? "Expensive!" : "Affordable");
-
-        for (int i = 0; i < catalog.Count; i++)
-        {
-            Console.WriteLine($"{catalog[i].Name}: {labels[i]}");
-        }
-    }
-
-
-
+            foreach (Product product in lowStockProducts)
+            {
+                Console.WriteLine($"[LOW STOCK] {product.Name}: only {product.Stock} left!");
+            }
 
 
         #endregion
@@ -159,6 +194,11 @@ internal class Program
 
 
 
+
+
+        
+
+    }
 }
 
 
