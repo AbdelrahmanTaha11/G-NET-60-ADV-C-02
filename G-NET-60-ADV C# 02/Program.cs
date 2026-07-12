@@ -1,10 +1,73 @@
-﻿namespace G_NET_60_ADV_C__02
+﻿namespace G_NET_60_ADV_C__02;
+
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+
+        List<Product> catalog = new()
         {
-            
+            new Product { Id=1, Name="Laptop", Category="Electronics", Price=1200, Stock=10 },
+            new Product { Id=2, Name="Phone", Category="Electronics", Price=800, Stock=25 },
+            new Product { Id=3, Name="T-Shirt", Category="Clothing", Price=30, Stock=100 },
+            new Product { Id=4, Name="Jeans", Category="Clothing", Price=60, Stock=50 },
+            new Product { Id=5, Name="Chocolate", Category="Food", Price=5, Stock=200 },
+            new Product { Id=6, Name="Coffee Beans", Category="Food", Price=15, Stock=80 },
+            new Product { Id=7, Name="Book", Category="Books", Price=45, Stock=30 },
+            new Product { Id=8, Name="Novel", Category="Books", Price=20, Stock=60 },
+            new Product { Id=9, Name="Headphones", Category="Electronics", Price=150, Stock=40 },
+            new Product { Id=10, Name="Jacket", Category="Clothing", Price=120, Stock=15 }
+        };
+
+
+        static List<Product> SearchProducts(List<Product> products, ProductFilter filter)
+        {
+            List<Product> result = new List<Product>();
+
+            foreach (Product product in products)
+            {
+                if (filter(product))
+                {
+                    result.Add(product);
+                }
+            }
+
+            return result;
         }
+
+        static void PrintProducts(string title, List<Product> products)
+        {
+            Console.WriteLine($"--- {title} ---");
+
+            foreach (Product product in products)
+            {
+                Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
+            }
+
+            Console.WriteLine();
+        }
+
+
+
+        PrintProducts("Electronics",
+          SearchProducts(catalog, p => p.Category == "Electronics"));
+
+        PrintProducts("Under $50",
+            SearchProducts(catalog, p => p.Price < 50));
+
+        PrintProducts("In Stock",
+            SearchProducts(catalog, p => p.Stock > 0));
+
+        PrintProducts("Clothing Under $100",
+            SearchProducts(catalog, p => p.Category == "Clothing" && p.Price < 100));
+
+
+
+
+
+            
+
+
+
     }
 }
