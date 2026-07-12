@@ -4,7 +4,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-
+        #region Task01
         List<Product> catalog = new()
         {
             new Product { Id=1, Name="Laptop", Category="Electronics", Price=1200, Stock=10 },
@@ -62,12 +62,52 @@ internal class Program
             SearchProducts(catalog, p => p.Category == "Clothing" && p.Price < 100));
 
 
+        #endregion
 
 
-
-            
-
+        #region Task02(3)
 
 
+        // Uses the built-in Action<Product> delegate.
+        // Action is used because we only perform an operation (printing)
+        // without returning any value.
+        static void PrintReport(List<Product> products, Action<Product> report)
+        {
+            foreach (Product product in products)
+            {
+                report(product);
+            }
+        }
+
+        Console.WriteLine("--- Short Report ---");
+
+        PrintReport(catalog, product =>
+        {
+            Console.WriteLine($"{product.Name} - ${product.Price}");
+        });
+
+        Console.WriteLine();
+
+        Console.WriteLine("--- Detailed Report ---");
+
+        PrintReport(catalog, product =>
+        {
+            Console.WriteLine($"[{product.Category}] {product.Name} | Price: ${product.Price} | Stock: {product.Stock}");
+        });
     }
+
+
+
+
+
+
+
+        #endregion
+
+
+
+
+
+
 }
+
