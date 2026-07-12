@@ -20,46 +20,46 @@ internal class Program
         };
 
 
-        static List<Product> SearchProducts(List<Product> products, ProductFilter filter)
-        {
-            List<Product> result = new List<Product>();
+        //static List<Product> SearchProducts(List<Product> products, ProductFilter filter)
+        //{
+        //    List<Product> result = new List<Product>();
 
-            foreach (Product product in products)
-            {
-                if (filter(product))
-                {
-                    result.Add(product);
-                }
-            }
+        //    foreach (Product product in products)
+        //    {
+        //        if (filter(product))
+        //        {
+        //            result.Add(product);
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        static void PrintProducts(string title, List<Product> products)
-        {
-            Console.WriteLine($"--- {title} ---");
+        //static void PrintProducts(string title, List<Product> products)
+        //{
+        //    Console.WriteLine($"--- {title} ---");
 
-            foreach (Product product in products)
-            {
-                Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
-            }
+        //    foreach (Product product in products)
+        //    {
+        //        Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
+        //    }
 
-            Console.WriteLine();
-        }
+        //    Console.WriteLine();
+        //}
 
 
 
-        PrintProducts("Electronics",
-          SearchProducts(catalog, p => p.Category == "Electronics"));
+        //PrintProducts("Electronics",
+        //  SearchProducts(catalog, p => p.Category == "Electronics"));
 
-        PrintProducts("Under $50",
-            SearchProducts(catalog, p => p.Price < 50));
+        //PrintProducts("Under $50",
+        //    SearchProducts(catalog, p => p.Price < 50));
 
-        PrintProducts("In Stock",
-            SearchProducts(catalog, p => p.Stock > 0));
+        //PrintProducts("In Stock",
+        //    SearchProducts(catalog, p => p.Stock > 0));
 
-        PrintProducts("Clothing Under $100",
-            SearchProducts(catalog, p => p.Category == "Clothing" && p.Price < 100));
+        //PrintProducts("Clothing Under $100",
+        //    SearchProducts(catalog, p => p.Category == "Clothing" && p.Price < 100));
 
 
         #endregion
@@ -68,35 +68,83 @@ internal class Program
         #region Task02(3)
 
 
-        // Uses the built-in Action<Product> delegate.
-        // Action is used because we only perform an operation (printing)
-        // without returning any value.
-        static void PrintReport(List<Product> products, Action<Product> report)
+        //// Uses the built-in Action<Product> delegate.
+        //// Action is used because we only perform an operation (printing)
+        //// without returning any value.
+        //static void PrintReport(List<Product> products, Action<Product> report)
+        //{
+        //    foreach (Product product in products)
+        //    {
+        //        report(product);
+        //    }
+        //}
+
+        //Console.WriteLine("--- Short Report ---");
+
+        //PrintReport(catalog, product =>
+        //{
+        //    Console.WriteLine($"{product.Name} - ${product.Price}");
+        //});
+
+        //Console.WriteLine();
+
+        //Console.WriteLine("--- Detailed Report ---");
+
+        //PrintReport(catalog, product =>
+        //{
+        //    Console.WriteLine($"[{product.Category}] {product.Name} | Price: ${product.Price} | Stock: {product.Stock}");
+        //});
+
+
+
+
+
+
+
+
+        #endregion
+
+
+        #region Task3.2
+
+        // Uses the built-in Func<Product, T> delegate.
+        // Func is used because it transforms a Product into another type
+        // and returns the transformed value.
+        static List<T> TransformProducts<T>(List<Product> products, Func<Product, T> transformer)
+    {
+        List<T> result = new List<T>();
+
+        foreach (Product product in products)
         {
-            foreach (Product product in products)
-            {
-                report(product);
-            }
+            result.Add(transformer(product));
         }
 
-        Console.WriteLine("--- Short Report ---");
-
-        PrintReport(catalog, product =>
-        {
-            Console.WriteLine($"{product.Name} - ${product.Price}");
-        });
-
-        Console.WriteLine();
-
-        Console.WriteLine("--- Detailed Report ---");
-
-        PrintReport(catalog, product =>
-        {
-            Console.WriteLine($"[{product.Category}] {product.Name} | Price: ${product.Price} | Stock: {product.Stock}");
-        });
+        return result;
     }
 
 
+        Console.WriteLine("--- Summary List ---");
+
+        List<string> summary = TransformProducts(catalog,
+            product => $"{product.Name} (${product.Price})");
+
+        foreach (string item in summary)
+        {
+            Console.WriteLine(item);
+        }
+
+        Console.WriteLine();
+
+        Console.WriteLine("--- Price Labels ---");
+
+        List<string> labels = TransformProducts(catalog,
+            product => product.Price > 100 ? "Expensive!" : "Affordable");
+
+        for (int i = 0; i < catalog.Count; i++)
+        {
+            Console.WriteLine($"{catalog[i].Name}: {labels[i]}");
+        }
+    }
 
 
 
@@ -109,5 +157,9 @@ internal class Program
 
 
 
+
+
 }
+
+
 
